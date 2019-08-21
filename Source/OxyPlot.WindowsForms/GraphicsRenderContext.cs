@@ -140,7 +140,26 @@ namespace OxyPlot.WindowsForms
 
             this.g.SmoothingMode = aliased ? SmoothingMode.None : SmoothingMode.HighQuality;
             var pen = this.GetCachedPen(stroke, thickness, dashArray, lineJoin);
-            this.g.DrawLines(pen, this.ToPoints(points));
+
+            #region NMI
+            //            this.g.DrawLines(pen, this.ToPoints(points));
+            Int32 pointsDone = 0;
+            Int32 pointsToDo = (points.Count > 1000) ? 1000 : points.Count;
+            Int32 pointBlocksDone = 0;
+            while (pointsDone < points.Count)
+            {
+                List<ScreenPoint> pointsForNow = new List<ScreenPoint>();
+                for (int i = 0; i < pointsToDo && pointsDone < points.Count; i++, pointsDone++)
+                {
+                    if (pointBlocksDone > 0 && 0 == i)
+                        pointsForNow.Add(points[pointsDone - 1]);
+
+                    pointsForNow.Add(points[pointsDone]);
+                }
+                this.g.DrawLines(pen, this.ToPoints(pointsForNow));
+                pointBlocksDone++;
+            }
+            #endregion
         }
 
         /// <summary>
