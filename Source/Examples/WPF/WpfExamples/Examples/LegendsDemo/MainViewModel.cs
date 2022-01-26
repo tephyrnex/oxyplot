@@ -7,9 +7,9 @@
 namespace LegendsDemo
 {
     using System;
-
     using OxyPlot;
     using OxyPlot.Series;
+    using OxyPlot.Legends;
 
     using PropertyTools.DataAnnotations;
     using WpfExamples;
@@ -40,7 +40,7 @@ namespace LegendsDemo
             get { return this.legendPosition; }
             set
             {
-                this.SetValue(ref this.legendPosition, value, () => this.LegendPosition);
+                this.SetValue(ref this.legendPosition, value);
                 this.PropertiesChanged();
             }
         }
@@ -51,7 +51,7 @@ namespace LegendsDemo
             get { return this.legendPlacement; }
             set
             {
-                this.SetValue(ref this.legendPlacement, value, () => this.LegendPlacement);
+                this.SetValue(ref this.legendPlacement, value);
                 this.PropertiesChanged();
             }
         }
@@ -62,7 +62,7 @@ namespace LegendsDemo
             get { return this.legendOrientation; }
             set
             {
-                this.SetValue(ref this.legendOrientation, value, () => this.LegendOrientation);
+                this.SetValue(ref this.legendOrientation, value);
                 this.PropertiesChanged();
             }
         }
@@ -73,7 +73,7 @@ namespace LegendsDemo
             get { return this.legendItemOrder; }
             set
             {
-                this.SetValue(ref this.legendItemOrder, value, () => this.LegendItemOrder);
+                this.SetValue(ref this.legendItemOrder, value);
                 this.PropertiesChanged();
             }
         }
@@ -84,7 +84,7 @@ namespace LegendsDemo
             get { return this.legendItemAlignment; }
             set
             {
-                this.SetValue(ref this.legendItemAlignment, value, () => this.LegendItemAlignment);
+                this.SetValue(ref this.legendItemAlignment, value);
                 this.PropertiesChanged();
             }
         }
@@ -95,7 +95,7 @@ namespace LegendsDemo
             get { return this.legendSymbolPlacement; }
             set
             {
-                this.SetValue(ref this.legendSymbolPlacement, value, () => this.LegendSymbolPlacement);
+                this.SetValue(ref this.legendSymbolPlacement, value);
                 this.PropertiesChanged();
             }
         }
@@ -106,7 +106,7 @@ namespace LegendsDemo
             get { return this.maxWidth; }
             set
             {
-                this.SetValue(ref this.maxWidth, value, () => this.LegendMaxWidth);
+                this.SetValue(ref this.maxWidth, value);
                 this.PropertiesChanged();
             }
         }
@@ -117,7 +117,7 @@ namespace LegendsDemo
             get { return this.maxHeight; }
             set
             {
-                this.SetValue(ref this.maxHeight, value, () => this.LegendMaxHeight);
+                this.SetValue(ref this.maxHeight, value);
                 this.PropertiesChanged();
             }
         }
@@ -128,7 +128,7 @@ namespace LegendsDemo
             get { return this.numberOfSeries; }
             set
             {
-                this.SetValue(ref this.numberOfSeries, value, () => this.NumberOfSeries);
+                this.SetValue(ref this.numberOfSeries, value);
                 this.PropertiesChanged();
             }
         }
@@ -139,11 +139,7 @@ namespace LegendsDemo
             get { return this.model; }
             set
             {
-                if (this.model != value)
-                {
-                    this.model = value;
-                    this.RaisePropertyChanged(() => this.Model);
-                }
+                this.SetValue(ref this.model, value);
             }
         }
 
@@ -156,7 +152,11 @@ namespace LegendsDemo
         {
             var newModel = new PlotModel
             {
-                Title = "LineSeries",
+                Title = "LineSeries"
+            };
+
+            var l = new Legend
+            {
                 LegendBorder = OxyColors.Black,
                 LegendBackground = OxyColor.FromAColor(200, OxyColors.White),
                 LegendPosition = this.LegendPosition,
@@ -168,6 +168,8 @@ namespace LegendsDemo
                 LegendMaxWidth = this.LegendMaxWidth,
                 LegendMaxHeight = this.LegendMaxHeight
             };
+
+            newModel.Legends.Add(l);
 
             for (int i = 1; i <= n; i++)
             {

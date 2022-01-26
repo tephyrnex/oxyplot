@@ -11,6 +11,7 @@ namespace CsvDemo
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
+    using OxyPlot.Legends;
 
     using WpfExamples;
 
@@ -29,8 +30,7 @@ namespace CsvDemo
             {
                 if (this.model != value)
                 {
-                    this.model = value;
-                    this.RaisePropertyChanged(() => this.Model);
+                    this.SetValue(ref this.model, value);
                 }
             }
         }
@@ -42,10 +42,17 @@ namespace CsvDemo
             var tmp = new PlotModel
             {
                 Title = Path.GetFileNameWithoutExtension(file),
-                LegendPosition = LegendPosition.RightTop,
-                LegendPlacement = LegendPlacement.Outside,
                 PlotMargins = new OxyThickness(50, 0, 0, 40)
             };
+
+            var l = new Legend
+            {
+                LegendPosition = LegendPosition.RightTop,
+                LegendPlacement = LegendPlacement.Outside
+            };
+
+            tmp.Legends.Add(l);
+
             for (int i = 1; i < doc.Headers.Length; i++)
             {
                 var ls = new LineSeries { Title = doc.Headers[i] };

@@ -241,3 +241,7 @@ _Pvt_Extensions
 
 # OxyPlot specific
 Output/
+launchSettings.json
+
+# Rider
+.idea/
